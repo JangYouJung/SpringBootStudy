@@ -44,6 +44,7 @@ public class MemberService {
 
      // [3] 중복 회원 검색 세 번째 코드: findByName을 Extract Method로 따로 빼줌
     public Long join(Member member) {
+        /*** AOP 적용 전 실행 시간 출력을 위한 try catch 문
         long start = System.currentTimeMillis();
         try {
             validateDuplicateMember(member); //중복 회원 검증
@@ -53,12 +54,19 @@ public class MemberService {
             long finish = System.currentTimeMillis();
             long timeMs = finish - start;
             System.out.println("join " + timeMs + "ms");
-        }
+        }*/
+
+        //AOP 적용 후 try catch 문 삭제
+        validateDuplicateMember(member); //중복 회원 검증
+        memberRepository.save(member);
+        return member.getId();
     }
+
     /**
      * 전체 회원 조회
      */
     public List<Member> findMembers() {
+        /*****AOP 적용 전 수기로 시간 측정 코드 추가
         long start = System.currentTimeMillis();
         try {
             return memberRepository.findAll();
@@ -66,8 +74,12 @@ public class MemberService {
             long finish = System.currentTimeMillis();
             long timeMs = finish - start;
             System.out.println("findMembers " + timeMs + "ms");
-        }
+        }*/
+
+        //AOP 적용 후 위의 코드는 다 주석 처리
+        return memberRepository.findAll();
     }
+
     private void validateDuplicateMember(Member member) {
         memberRepository.findByName(member.getName())
                 .ifPresent(m -> {
