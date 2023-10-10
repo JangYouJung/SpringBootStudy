@@ -29,6 +29,7 @@ public class MemberController {
     @Autowired
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
+        System.out.println("Proxy 확인 - memberService: "+ memberService.getClass());
     }
 
     //[1]회원 등록 버튼 눌렀을 때
